@@ -8,6 +8,8 @@ RotateRight y : rotate a list by y elements. See LeetCode 61.
 **/
 package list
 
+import "strconv"
+
 type List struct {
 	Val  int
 	Next *List
@@ -65,14 +67,30 @@ func (l *List) Delete(x int) {
 	}
 }
 
-// Form a golang slice from a linked list
+// get the lenght of a linked list
+func (l *List) Len() int {
+	lenght := 0
+	currentNode := l
+	for currentNode != nil {
+		lenght++
+		currentNode = currentNode.Next
+	}
+	return lenght
+}
+
+// Form a golang string from a linked list
 // This method has no utility in practice, it will be used for testing and visual verifications only
-func (l *List) ToSlice() []int {
-	var result []int
+func (l *List) ToString() string {
+	result := ""
 	currentList := l
 	for currentList != nil {
-		result = append(result, currentList.Val)
-		currentList = currentList.Next
+		if len(result) > 0 {
+			result = result + "-->" + strconv.Itoa(currentList.Val)
+			currentList = currentList.Next
+		} else {
+			result = strconv.Itoa(currentList.Val)
+			currentList = currentList.Next
+		}
 	}
 	return result
 }

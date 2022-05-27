@@ -95,6 +95,37 @@ func (l *List) ToString() string {
 	return result
 }
 
+// Reverse a linked list
+func (l *List) Reverse() *List {
+	current := l
+	// Here is how to declare a nil struct
+	var previous *List = nil
+	var next *List
+	for current != nil {
+		next = current.Next
+		current.Next = previous
+		previous = current
+		current = next
+	}
+	// previous is the new head
+	return previous
+}
+
+// Dectect a loop in a Linked List
+func (l *List) DectectLoop() bool {
+	current := l
+	traversed := make(map[*List]bool)
+	for current != nil {
+		_, present := traversed[current]
+		if present {
+			return true
+		}
+		traversed[current] = true
+		current = current.Next
+	}
+	return false
+}
+
 // Rotate a list k digits from the right (see LC 61)
 func (*List) RotateRight(k int) *List {
 	return nil

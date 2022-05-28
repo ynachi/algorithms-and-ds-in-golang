@@ -127,6 +127,27 @@ func (l *List) DectectLoop() bool {
 }
 
 // Rotate a list k digits from the right (see LC 61)
-func (*List) RotateRight(k int) *List {
-	return nil
+func (head *List) RotateRight(k int) *List {
+	if head == nil || head.Next == nil {
+		return head
+	}
+	oldHead := head
+	current := head
+	lenght := 0
+	for current.Next != nil {
+		lenght += 1
+		current = current.Next
+	}
+	lenght += 1
+	current.Next = oldHead
+	steps := lenght - k
+	if steps < 0 {
+		steps = lenght - k%lenght
+	}
+	for i := 0; i < steps; i++ {
+		current = current.Next
+	}
+	newHead := current.Next
+	current.Next = nil
+	return newHead
 }

@@ -66,3 +66,33 @@ func TestReverse(t *testing.T) {
 		})
 	}
 }
+
+func TestLen(t *testing.T) {
+	list1 := List{1, &List{2, &List{3, &List{4, nil}}}}
+	var list2 List
+	tests := []struct {
+		name string
+		give List
+		want int
+	}{
+		{
+			name: "non_empty_list",
+			give: list1,
+			want: 4,
+		},
+		{
+			name: "empty_list",
+			give: list2,
+			want: 1,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got := tt.give.Size()
+			if got != tt.want {
+				const msg = `ToString : wanted %v but got %v.`
+				t.Fatalf(msg, tt.want, got)
+			}
+		})
+	}
+}

@@ -68,7 +68,7 @@ func (l *List) Delete(x int) {
 }
 
 // get the lenght of a linked list
-func (l *List) Len() int {
+func (l *List) Size() int {
 	lenght := 0
 	currentNode := l
 	for currentNode != nil {

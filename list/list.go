@@ -11,8 +11,8 @@ package list
 import "strconv"
 
 type List struct {
-	Val  int
-	Next *List
+	val  int
+	next *List
 }
 
 // Search value x in List l
@@ -21,17 +21,17 @@ func (l *List) Search(x int) *List {
 	if l == nil {
 		return nil
 	}
-	if l.Val == x {
+	if l.val == x {
 		return l
 	} else {
-		return l.Next.Search(x)
+		return l.next.Search(x)
 	}
 }
 
 // Insert a new node in the begining of the list
 func (l *List) Insert(x int) {
 	newNode := &List{x, nil}
-	newNode.Next = l
+	newNode.next = l
 	l = newNode
 }
 
@@ -42,27 +42,27 @@ func (l *List) PushBack(x int) {
 		l = &p
 	} else {
 		currentNode := l
-		for currentNode.Next != nil {
-			currentNode = currentNode.Next
+		for currentNode.next != nil {
+			currentNode = currentNode.next
 		}
-		currentNode.Next = &p
+		currentNode.next = &p
 	}
 }
 
 // Delete an item from a list
 func (l *List) Delete(x int) {
-	if l == nil || (l.Val == x && l.Next == nil) {
+	if l == nil || (l.val == x && l.next == nil) {
 		l = nil
 		return
 	}
 	tmp := l
-	for tmp.Next != nil && tmp.Next.Val != x {
-		tmp = tmp.Next
+	for tmp.next != nil && tmp.next.val != x {
+		tmp = tmp.next
 	}
-	if tmp.Next != nil {
-		newNext := tmp.Next
-		tmp.Next = tmp.Next.Next
-		newNext.Next = nil // break link for the pointer to not escape garbage collector
+	if tmp.next != nil {
+		newNext := tmp.next
+		tmp.next = tmp.next.next
+		newNext.next = nil // break link for the pointer to not escape garbage collector
 		newNext = nil      // set "deleted" pointer to nil
 	}
 }
@@ -73,7 +73,7 @@ func (l *List) Size() int {
 	currentNode := l
 	for currentNode != nil {
 		lenght++
-		currentNode = currentNode.Next
+		currentNode = currentNode.next
 	}
 	return lenght
 }
@@ -85,11 +85,11 @@ func (l *List) ToString() string {
 	currentList := l
 	for currentList != nil {
 		if len(result) > 0 {
-			result = result + "-->" + strconv.Itoa(currentList.Val)
-			currentList = currentList.Next
+			result = result + "-->" + strconv.Itoa(currentList.val)
+			currentList = currentList.next
 		} else {
-			result = strconv.Itoa(currentList.Val)
-			currentList = currentList.Next
+			result = strconv.Itoa(currentList.val)
+			currentList = currentList.next
 		}
 	}
 	return result
@@ -102,8 +102,8 @@ func (l *List) Reverse() *List {
 	var previous *List = nil
 	var next *List
 	for current != nil {
-		next = current.Next
-		current.Next = previous
+		next = current.next
+		current.next = previous
 		previous = current
 		current = next
 	}
@@ -121,33 +121,33 @@ func (l *List) DectectLoop() bool {
 			return true
 		}
 		traversed[current] = true
-		current = current.Next
+		current = current.next
 	}
 	return false
 }
 
 // Rotate a list k digits from the right (see LC 61)
 func (head *List) RotateRight(k int) *List {
-	if head == nil || head.Next == nil {
+	if head == nil || head.next == nil {
 		return head
 	}
 	oldHead := head
 	current := head
 	lenght := 0
-	for current.Next != nil {
+	for current.next != nil {
 		lenght += 1
-		current = current.Next
+		current = current.next
 	}
 	lenght += 1
-	current.Next = oldHead
+	current.next = oldHead
 	steps := lenght - k
 	if steps < 0 {
 		steps = lenght - k%lenght
 	}
 	for i := 0; i < steps; i++ {
-		current = current.Next
+		current = current.next
 	}
-	newHead := current.Next
-	current.Next = nil
+	newHead := current.next
+	current.next = nil
 	return newHead
 }

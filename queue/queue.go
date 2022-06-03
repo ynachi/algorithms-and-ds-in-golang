@@ -1,5 +1,7 @@
 package queue
 
+import "fmt"
+
 // Node type struct
 type Node struct {
 	value interface{}
@@ -25,19 +27,44 @@ func (q *Queue) IsEmpty() bool {
 
 // Get the top element of the Queue
 func (q *Queue) Peek() interface{} {
-	return nil
+	if q.IsEmpty() {
+		fmt.Println("QueueEmptyException")
+		return nil
+	}
+	return q.head.value
 }
 
 // Enqueue (Push an element into the Queue)
 func (q *Queue) Enqueue(value interface{}) {
-
+	tmp := &Node{value, nil}
+	if q.IsEmpty() {
+		q.tail = tmp
+		q.head = tmp
+	}
+	q.tail.next = tmp
+	q.tail = tmp
+	q.size++
 }
 
 // Dequeue (Remove an element from the Queue)
 func (q *Queue) Dequeue() interface{} {
-	return nil
+	if q.IsEmpty() {
+		fmt.Println("QueueEmptyException")
+		return nil
+	}
+	result := q.head.value
+	q.head = q.head.next
+	q.size--
+	return result
+
 }
 
 // Print() function will print the elements of the stack
-func (s *Queue) Print() {
+func (q *Queue) Print() {
+	currentNode := q.head
+	for currentNode != nil {
+		fmt.Printf("%d ", currentNode.value)
+		currentNode = currentNode.next
+	}
+	fmt.Println()
 }

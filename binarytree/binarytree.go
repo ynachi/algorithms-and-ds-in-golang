@@ -1,30 +1,58 @@
 package binarytree
 
 type Node struct {
-	data  int
-	left  *BinaryTreeNode
-	right *BinaryTreeNode
+	data   int
+	parent *Node
+	left   *Node
+	right  *Node
 }
 
-type BinarySearchTree struct {
+type BinaryTree struct {
 	root *Node
 }
 
-// Init initialize the binary tree
-func (t *Node) Init() {
-	t.root = nil
-}
-
-// InitWithData initializes the data members of BinaryTree using the given data
-func (t *Node) InitWithData(data int) {
-	t.root = &Node{
-		data:  data,
-		left:  nil,
-		right: nil,
+// FindData is used to find a data x in the BSD.
+func (t *BinaryTree) FindData(x int) (*Node, bool) {
+	if t.root == nil {
+		return nil, false
+	}
+	if t.root.data == x {
+		return t.root, true
+	}
+	if x < t.root.data {
+		temp := BinaryTree{t.root.left}
+		return temp.FindData(x)
+	} else {
+		temp := BinaryTree{t.root.right}
+		return temp.FindData(x)
 	}
 }
 
-// FindData is used to find a data x in the BSD.
-func (t *BinarySearchTree) FindData(x int) bool {
-	if t.root.left == t.root.right
+// InsertData is used to insert data x in the BSD.
+func (t *BinaryTree) InsertData(x int) {
+	tempNode := &Node{
+		data: x,
+	}
+	if t.root == nil {
+		t.root = tempNode
+		return
+	}
+	currentNode := t.root
+	var direction string // which one from parent.left or parent.right is will be null ?
+	var currentParent *Node
+	for currentNode != nil {
+		currentParent = currentNode.parent
+		if x < currentNode.data {
+			currentNode = currentNode.left
+			direction = "left"
+		} else {
+			currentNode = currentNode.right
+			direction = "right"
+		}
+	}
+	if direction == "left" {
+		currentParent.left = tempNode
+	} else {
+		currentParent.right = tempNode
+	}
 }

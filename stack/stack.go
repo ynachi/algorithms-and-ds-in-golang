@@ -1,6 +1,8 @@
 package stack
 
-import "fmt"
+import (
+	"fmt"
+)
 
 // Node type struct
 type Node struct {

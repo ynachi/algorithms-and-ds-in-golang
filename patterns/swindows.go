@@ -1,3 +1,6 @@
+/*
+Sliding windows pattern
+*/
 package patterns
 
 // findMaxAverage finds the max average of a subarrays
@@ -53,4 +56,38 @@ func findMinSubArray(target int, nums []int) int {
 		windowMin = 0
 	}
 	return windowMin
+}
+
+// Given a string, find the length of the longest substring in it
+// with no more than K distinct characters.
+func LongestSubstringKDistinct(str string, k int) int {
+	var (
+		windowStart int
+		windowSize  int
+	)
+	charTrack := map[rune]int{}
+	strToRune := []rune(str)
+	windowMax := -1
+	for windowEnd, v := range strToRune {
+		charTrack[v]++
+		for len(charTrack) > k {
+			windowSize = windowEnd - windowStart
+			if charTrack[strToRune[windowStart]] > 1 {
+				charTrack[v]--
+			} else {
+				delete(charTrack, strToRune[windowStart])
+			}
+			windowStart++
+			if windowSize > windowMax {
+				windowMax = windowSize
+			}
+		}
+
+	}
+	// if we did not find relevant substring, then
+	// result is the lenght of the original string
+	if windowMax == -1 {
+		windowMax = len(strToRune)
+	}
+	return windowMax
 }

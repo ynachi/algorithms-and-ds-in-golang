@@ -91,3 +91,40 @@ func LongestSubstringKDistinct(str string, k int) int {
 	}
 	return windowMax
 }
+
+// Given a string s, find the length of the longest substring without repeating characters.
+func lengthOfLongestSubstring(s string) int {
+	var (
+		windowStart int
+		windowSize  int
+		windowEnd   int
+	)
+	charTrack := map[rune]bool{} // simulates set in golang
+	strToRune := []rune(s)       // will be esier to loop over vs bytes
+	windowMax := -1
+	for windowEnd < len(strToRune) {
+		//if found a dupplicate rune, it means we are at
+		// the end of a substring so we don't increment
+		// the end of the window. We process the substring
+		// and shrink the windows from the begining
+		if _, ok := charTrack[strToRune[windowEnd]]; ok {
+			windowSize = windowEnd - windowStart
+			if windowSize > windowMax {
+				windowMax = windowSize
+			}
+			delete(charTrack, strToRune[windowStart])
+			windowStart++
+		} else {
+			charTrack[strToRune[windowEnd]] = true
+			windowEnd++
+		}
+
+	}
+	// Process the last windowSize
+	windowSize = windowEnd - windowStart
+	if windowSize > windowMax {
+		windowMax = windowSize
+	}
+	return windowMax
+}
+

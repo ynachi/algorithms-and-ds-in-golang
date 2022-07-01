@@ -103,3 +103,52 @@ func TestLongestSubstringKDistinct(t *testing.T) {
 		})
 	}
 }
+
+func TestLengthOfLongestSubstring(t *testing.T) {
+	s1 := "abcabcbb"
+	s2 := "bbbbb"
+	s3 := "pwwkew"
+	s4 := "abbbb"
+	s5 := "aab"
+	tests := []struct {
+		name string
+		give string
+		want int
+	}{
+		{
+			name: "test_1",
+			give: s1,
+			want: 3,
+		},
+		{
+			name: "test_2",
+			give: s2,
+			want: 1,
+		},
+		{
+			name: "test_3",
+			give: s3,
+			want: 3,
+		},
+
+		{
+			name: "test_4",
+			give: s4,
+			want: 2,
+		},
+		{
+			name: "test_5",
+			give: s5,
+			want: 2,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got := lengthOfLongestSubstring(tt.give)
+			if got != tt.want {
+				const msg = `lengthOfLongestSubstring : wanted %v but got %v.`
+				t.Fatalf(msg, tt.want, got)
+			}
+		})
+	}
+}

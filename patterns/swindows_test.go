@@ -152,3 +152,54 @@ func TestLengthOfLongestSubstring(t *testing.T) {
 		})
 	}
 }
+
+func TestFindPermutation(t *testing.T) {
+	str0 := "ccccbbbbaaaa"
+	pattern0 := "abc"
+	str3 := "dcda"
+	pattern3 := "adc"
+	str1 := "oidbcaf"
+	pattern1 := "abc"
+	str2 := "odicf"
+	pattern2 := "dc"
+	tests := []struct {
+		name        string
+		giveStr     string
+		givePattern string
+		want        bool
+	}{
+		{
+			name:        "test_0",
+			giveStr:     str0,
+			givePattern: pattern0,
+			want:        false,
+		},
+		{
+			name:        "test_1",
+			giveStr:     str1,
+			givePattern: pattern1,
+			want:        true,
+		},
+		{
+			name:        "test_2",
+			giveStr:     str2,
+			givePattern: pattern2,
+			want:        false,
+		},
+		{
+			name:        "test_3",
+			giveStr:     str3,
+			givePattern: pattern3,
+			want:        true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got := FindPermutation(tt.giveStr, tt.givePattern)
+			if got != tt.want {
+				const msg = `lengthOfLongestSubstring : wanted %v but got %v.`
+				t.Fatalf(msg, tt.want, got)
+			}
+		})
+	}
+}

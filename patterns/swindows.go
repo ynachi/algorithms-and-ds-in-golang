@@ -128,3 +128,33 @@ func lengthOfLongestSubstring(s string) int {
 	return windowMax
 }
 
+// Given a string and a pattern, find out if the string contains any permutation of the pattern.
+// LC 567
+func FindPermutation(str string, pattern string) bool {
+	patternToRune := []rune(pattern)
+	var windowStart int
+	strToRune := []rune(str)
+	patternSize := len(patternToRune)
+	for windowEnd := patternSize; windowEnd <= len(strToRune); windowEnd++ {
+		if isPermutation(patternToRune, strToRune[windowStart:windowEnd]) {
+			return true
+		}
+		windowStart++
+	}
+	return false
+}
+
+func isPermutation(str []rune, pattern []rune) bool {
+	strMap := map[rune]int{}
+	for _, v := range str {
+		strMap[v]++
+	}
+	for _, v := range pattern {
+		if strMap[v] > 1 {
+			strMap[v]--
+		} else {
+			delete(strMap, v)
+		}
+	}
+	return len(strMap) == 0
+}

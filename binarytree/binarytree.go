@@ -1,58 +1,56 @@
 package binarytree
 
 type Node struct {
-	data   int
-	parent *Node
-	left   *Node
-	right  *Node
-}
-
-type BinaryTree struct {
-	root *Node
+	data  int
+	left  *Node
+	right *Node
 }
 
 // FindData is used to find a data x in the BSD.
-func (t *BinaryTree) FindData(x int) (*Node, bool) {
-	if t.root == nil {
+func (root *Node) FindData(x int) (*Node, bool) {
+	switch {
+	case root == nil:
 		return nil, false
-	}
-	if t.root.data == x {
-		return t.root, true
-	}
-	if x < t.root.data {
-		temp := BinaryTree{t.root.left}
-		return temp.FindData(x)
-	} else {
-		temp := BinaryTree{t.root.right}
-		return temp.FindData(x)
+	case x < root.data:
+		return root.left.FindData(x)
+	case x > root.data:
+		return root.right.FindData(x)
+	default:
+		return root, true
 	}
 }
 
 // InsertData is used to insert data x in the BSD.
-func (t *BinaryTree) InsertData(x int) {
+func (root *Node) InsertData(x int) *Node {
 	tempNode := &Node{
 		data: x,
 	}
-	if t.root == nil {
-		t.root = tempNode
-		return
+	if root == nil {
+		return tempNode
 	}
-	currentNode := t.root
-	var direction string // which one from parent.left or parent.right is will be null ?
-	var currentParent *Node
-	for currentNode != nil {
-		currentParent = currentNode.parent
-		if x < currentNode.data {
-			currentNode = currentNode.left
-			direction = "left"
-		} else {
-			currentNode = currentNode.right
-			direction = "right"
-		}
+	if x < root.data {
+		root.left = root.left.InsertData(x)
+	} else if x > root.data {
+		root.right = root.right.InsertData(x)
 	}
-	if direction == "left" {
-		currentParent.left = tempNode
-	} else {
-		currentParent.right = tempNode
+	return root
+}
+
+// IsBST checks if a tree is a binary search tree
+func (root *Node) IsBST() bool {
+	return isBSTHelper(root, nil)
+}
+
+// Leveraging inorder traversal
+func isBSTHelper(root *Node, prev *Node) bool {
+	// Base case
+	if root == nil {
+		return true
 	}
+	if prev != nil && prev.data >= root.data {
+		return false
+	}
+	// Go left, go node, go right
+	//	return isBSTHelper(root.left, root) && isBSTHelper(root, nil) && isBSTHelper(root.right, root)
+	return isBSTHelper(root.left, root) && isBSTHelper(root.right, root)
 }

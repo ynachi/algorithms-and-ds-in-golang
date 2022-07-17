@@ -5,16 +5,13 @@ import (
 )
 
 // Node type struct
-type Node struct {
-	value interface{}
-	next  *Node
+type Node[T any] struct {
+	value T
+	next  *Node[T]
 }
 
-// Queue type struct
-type Stack struct {
-	head *Node
-	size int
-}
+// NewStack returns a new stack that is nil
+func NewStack(s *Node)
 
 // Get the size of the Stack
 func (s *Stack) Size() int {
@@ -57,11 +54,15 @@ func (s *Stack) Pop() interface{} {
 }
 
 // Print() function will print the elements of the stack
-func (s *Stack) Print() {
+func (s *Stack) String() string {
+	out := ""
+	if s == nil {
+		return out
+	}	
 	currentNode := s.head
 	for currentNode != nil {
-		fmt.Printf("%d ", currentNode.value)
+		out += fmt.Sprintf("%d ", currentNode.value)
 		currentNode = currentNode.next
 	}
-	fmt.Println()
+	return out
 }

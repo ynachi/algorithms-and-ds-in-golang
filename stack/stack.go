@@ -1,68 +1,69 @@
+/**
+  We won't use pointer receivers as the underline structure is a slice
+  which is already based on pointers
+**/
 package stack
 
 import (
+	"errors"
 	"fmt"
 )
 
-// Node type struct
-type Node[T any] struct {
-	value T
-	next  *Node[T]
+// Stack type struct
+type Stack[T any] struct {
+	value []T
 }
 
-// NewStack returns a new stack that is nil
-func NewStack(s *Node)
+// InitStack creates a stack and initialize it's initial capacity
+func InitStack[T any](initalSize int) Stack[T] {
+	return Stack[T]{
+		value: make([]T, 0, initalSize),
+	}
+}
 
 // Get the size of the Stack
-func (s *Stack) Size() int {
-	return s.size
+func (s *Stack[T]) Size() int {
+	return len(s.value)
 }
 
 // Check if the Stack is empty
-func (s *Stack) IsEmpty() bool {
-	return s.size == 0
+func (s *Stack[T]) IsEmpty() bool {
+	return len(s.value) == 0
 }
 
 // Peek() returns the top value of the stack
-func (s *Stack) Peek() interface{} {
+func (s *Stack[T]) Peek() (T, error) {
 	if s.IsEmpty() {
-		fmt.Println("StackEmptyException")
-		return nil
+		var noop T // I want to return the zero value of type T
+		return noop, errors.New("stack is empty")
 	}
-	return s.head.value
+	return s.value[len(s.value)-1], nil
 }
 
 // Push() function  will push the value into the stack
-func (s *Stack) Push(value interface{}) {
-	s.head = &Node{
-		value: value,
-		next:  s.head,
-	}
-	s.size++
+func (s *Stack[T]) Push(data T) {
+	s.value = append(s.value, data)
 }
 
 // Pop() function will pop the value from the top of the stack
-func (s *Stack) Pop() interface{} {
+func (s *Stack[T]) Pop() (T, error) {
 	if s.IsEmpty() {
-		fmt.Println("StackEmptyException")
-		return nil
+		var noop T // I want to return the zero value of type T
+		return noop, errors.New("stack is empty")
 	}
-	result := s.head.value
-	s.head = s.head.next
-	s.size--
-	return result
+	result := s.value[len(s.value)-1]
+	s.value = s.value[:len(s.value)-1]
+	return result, nil
 }
 
 // Print() function will print the elements of the stack
-func (s *Stack) String() string {
+func (s Stack[T]) String() string {
 	out := ""
-	if s == nil {
+	if s.IsEmpty() {
 		return out
-	}	
-	currentNode := s.head
-	for currentNode != nil {
-		out += fmt.Sprintf("%d ", currentNode.value)
-		currentNode = currentNode.next
+	}
+	for _, v := range s.value {
+		out += fmt.Sprintf("%v ", v)
 	}
 	return out
 }

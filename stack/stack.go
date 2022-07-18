@@ -62,8 +62,12 @@ func (s Stack[T]) String() string {
 	if s.IsEmpty() {
 		return out
 	}
-	for _, v := range s.value {
-		out += fmt.Sprintf("%v ", v)
+	for i, v := range s.value {
+		if i == 0 {
+			out += fmt.Sprintf("%v", v)
+		} else {
+			out += fmt.Sprintf(" %v", v)
+		}
 	}
 	return out
 }

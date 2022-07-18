@@ -141,3 +141,35 @@ func TestPop(t *testing.T) {
 		})
 	}
 }
+
+func TestPrint(t *testing.T) {
+	data1 := Stack[int]{value: []int{0, 1, 2, 3, 4}}
+	data2 := Stack[int]{value: []int{}}
+	tests := []struct {
+		name string
+		give Stack[int]
+		want string
+	}{
+		{
+			name: "test_1",
+			give: data1,
+			want: "0 1 2 3 4",
+		},
+		{
+			name: "test_2",
+			give: data2,
+			want: "",
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got := tt.give.String()
+			if got != tt.want {
+				const msg = `FindMinSubArray : wanted %v but got %v.`
+				t.Fatalf(msg, tt.want, got)
+			}
+		})
+	}
+}
+
+//@TODO also test Pop/Peek on empty stacks

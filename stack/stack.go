@@ -15,9 +15,9 @@ type Stack[T any] struct {
 }
 
 // InitStack creates a stack and initialize it's initial capacity
-func InitStack[T any](initalSize int) Stack[T] {
+func InitStack[T any](initCap int) Stack[T] {
 	return Stack[T]{
-		value: make([]T, 0, initalSize),
+		value: make([]T, 0, initCap),
 	}
 }
 

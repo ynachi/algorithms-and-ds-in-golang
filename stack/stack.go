@@ -1,7 +1,3 @@
-/**
-  We won't use pointer receivers as the underline structure is a slice
-  which is already based on pointers
-**/
 package stack
 
 import (
@@ -57,7 +53,7 @@ func (s *Stack[T]) Pop() (T, error) {
 }
 
 // Print() function will print the elements of the stack
-func (s Stack[T]) String() string {
+func (s *Stack[T]) String() string {
 	out := ""
 	if s.IsEmpty() {
 		return out
@@ -71,3 +67,10 @@ func (s Stack[T]) String() string {
 	}
 	return out
 }
+
+/**
+  Now let's practice stacks
+**/
+
+// BalancedParentheses(str) check if a string of parentheses is balanced
+// Which means every opening parenthese has it's equivalent closing one

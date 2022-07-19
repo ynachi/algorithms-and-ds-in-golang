@@ -134,9 +134,9 @@ func TestPop(t *testing.T) {
 			// 1. No exception
 			// 2. extracted data is the right one
 			// 3. The receiver stack is still what it should be
-			if err != nil || !reflect.DeepEqual(tt.give, tt.wantStack) || tt.wantExtract != extract {
+			if err != nil || !reflect.DeepEqual(tt.give.value, tt.wantStack.value) || tt.wantExtract != extract {
 				const msg = `FindMinSubArray : wanted %v but got %v.`
-				t.Fatalf(msg, tt.wantExtract, extract)
+				t.Fatalf(msg, tt.give, tt.wantStack)
 			}
 		})
 	}

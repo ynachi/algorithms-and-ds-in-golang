@@ -67,10 +67,3 @@ func (s *Stack[T]) String() string {
 	}
 	return out
 }
-
-/**
-  Now let's practice stacks
-**/
-
-// BalancedParentheses(str) check if a string of parentheses is balanced
-// Which means every opening parenthese has it's equivalent closing one

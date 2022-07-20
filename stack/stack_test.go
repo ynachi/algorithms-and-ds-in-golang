@@ -28,7 +28,7 @@ func TestInitStack(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			var stack = InitStack[int](tt.capacity)
 			if len(stack.value) != 0 || cap(stack.value) != tt.capacity {
-				const msg = `FindMinSubArray : wanted %v but got %v.`
+				const msg = `Stack.InitStack : wanted %v but got %v.`
 				t.Fatalf(msg, tt.wantCap, cap(stack.value))
 			}
 		})
@@ -61,7 +61,7 @@ func TestPush(t *testing.T) {
 				s.Push(v)
 			}
 			if !reflect.DeepEqual(s, tt.want) {
-				const msg = `FindMinSubArray : wanted %v but got %v.`
+				const msg = `Stack.Push : wanted %v but got %v.`
 				t.Fatalf(msg, tt.give, tt.want)
 			}
 		})
@@ -98,7 +98,7 @@ func TestPeek(t *testing.T) {
 			// 2. extracted data is the right one
 			// 3. The receiver stack is still what it should be
 			if err != nil || !reflect.DeepEqual(tt.give, tt.wantStack) || tt.wantExtract != extract {
-				const msg = `FindMinSubArray : wanted %v but got %v.`
+				const msg = `Stack.Peek : wanted %v but got %v.`
 				t.Fatalf(msg, tt.wantExtract, extract)
 			}
 		})
@@ -135,7 +135,7 @@ func TestPop(t *testing.T) {
 			// 2. extracted data is the right one
 			// 3. The receiver stack is still what it should be
 			if err != nil || !reflect.DeepEqual(tt.give.value, tt.wantStack.value) || tt.wantExtract != extract {
-				const msg = `FindMinSubArray : wanted %v but got %v.`
+				const msg = `Stack.Pop : wanted %v but got %v.`
 				t.Fatalf(msg, tt.give, tt.wantStack)
 			}
 		})
@@ -165,7 +165,7 @@ func TestPrint(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			got := tt.give.String()
 			if got != tt.want {
-				const msg = `FindMinSubArray : wanted %v but got %v.`
+				const msg = `Stack.Print : wanted %v but got %v.`
 				t.Fatalf(msg, tt.want, got)
 			}
 		})

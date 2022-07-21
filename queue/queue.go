@@ -1,70 +1,61 @@
 package queue
 
-import "fmt"
-
-// Node type struct
-type Node struct {
-	value interface{}
-	next  *Node
-}
+import (
+	"errors"
+	"fmt"
+)
 
 // Queue type struct
-type Queue struct {
-	tail *Node
-	head *Node
-	size int
+type Queue[T any] struct {
+	data []T
 }
 
-// Get the size of a Queue
-func (q *Queue) Size() int {
-	return q.size
-}
-
-// Check if a Queue is empty
-func (q *Queue) IsEmpty() bool {
-	return q.size == 0
-}
-
-// Get the top element of the Queue
-func (q *Queue) Peek() interface{} {
-	if q.IsEmpty() {
-		fmt.Println("QueueEmptyException")
-		return nil
+// InitQueue creates a queue and initialize it's initial capacity
+func InitQueue[T any](initCap int) Queue[T] {
+	return Queue[T]{
+		data: make([]T, 0, initCap),
 	}
-	return q.head.value
 }
 
-// Enqueue (Push an element into the Queue)
-func (q *Queue) Enqueue(value interface{}) {
-	tmp := &Node{value, nil}
-	if q.IsEmpty() {
-		q.tail = tmp
-		q.head = tmp
-	}
-	q.tail.next = tmp
-	q.tail = tmp
-	q.size++
+// Size() gets the size of a queue
+func (q *Queue[T]) Size() int {
+	return len(q.data)
+}
+
+// IsEmpty() checks if a Queue is empty
+func (q *Queue[T]) IsEmpty() bool {
+	return len(q.data) == 0
+}
+
+// Enqueue(value T)  Push an element into the Queue
+func (q *Queue[T]) Enqueue(value T) {
+	q.data = append(q.data, value)
 }
 
 // Dequeue (Remove an element from the Queue)
-func (q *Queue) Dequeue() interface{} {
+func (q *Queue[T]) Dequeue() (T, error) {
 	if q.IsEmpty() {
-		fmt.Println("QueueEmptyException")
-		return nil
+		var noop T // I want to return the zero value of type T
+		return noop, errors.New("queue is empty")
 	}
-	result := q.head.value
-	q.head = q.head.next
-	q.size--
-	return result
+	result := q.data[0]
+	q.data = q.data[1:] // Beware this is not working. I let it here for ref.
+	return result, nil
 
 }
 
 // Print() function will print the elements of the stack
-func (q *Queue) Print() {
-	currentNode := q.head
-	for currentNode != nil {
-		fmt.Printf("%d ", currentNode.value)
-		currentNode = currentNode.next
+func (q *Queue[T]) String() string {
+	out := ""
+	if q.IsEmpty() {
+		return out
 	}
-	fmt.Println()
+	for i, v := range q.data {
+		if i == 0 {
+			out += fmt.Sprintf("%v", v)
+		} else {
+			out += fmt.Sprintf(" %v", v)
+		}
+	}
+	return out
 }

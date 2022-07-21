@@ -1,3 +1,3 @@
-module github.com/ynachi/containers
+module github.com/ynachi/ads
 
 go 1.18

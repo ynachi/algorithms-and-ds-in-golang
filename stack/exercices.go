@@ -1,5 +1,7 @@
 package stack
 
+import "strconv"
+
 /**
   Now let's practice stacks
 **/
@@ -45,4 +47,23 @@ func BalancedSymbols(in string) bool {
 		}
 	}
 	return stk.IsEmpty()
+}
+
+// DecToBin(str) converts a decimal number into binary
+func DecToBin(number int) string {
+	binaryStk := InitStack[int](10)
+	tmp := number
+	for tmp > 0 {
+		binaryStk.Push(tmp % 2)
+		tmp = tmp / 2
+	}
+	result := ""
+	for !binaryStk.IsEmpty() {
+		digit, _ := binaryStk.Pop()
+		result = result + strconv.Itoa(digit)
+	}
+	if result == "" {
+		result = "0"
+	}
+	return result
 }

@@ -85,7 +85,7 @@ func LongestSubstringKDistinct(str string, k int) int {
 
 	}
 	// if we did not find relevant substring, then
-	// result is the lenght of the original string
+	// result is the length of the original string
 	if windowMax == -1 {
 		windowMax = len(strToRune)
 	}
@@ -106,7 +106,7 @@ func lengthOfLongestSubstring(s string) int {
 		//if found a dupplicate rune, it means we are at
 		// the end of a substring so we don't increment
 		// the end of the window. We process the substring
-		// and shrink the windows from the begining
+		// and shrink the windows from the beginning
 		if _, ok := charTrack[strToRune[windowEnd]]; ok {
 			windowSize = windowEnd - windowStart
 			if windowSize > windowMax {

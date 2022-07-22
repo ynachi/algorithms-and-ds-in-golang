@@ -28,14 +28,14 @@ func (l *List) Search(x int) *List {
 	}
 }
 
-// Insert a new node in the begining of the list
+// Insert a new node in the beginning of the list
 func (l *List) Insert(x int) {
 	newNode := &List{x, nil}
 	newNode.next = l
 	l = newNode
 }
 
-// Insert a new node at the back  of the list
+// PushBack insert a new node at the back  of the list
 func (l *List) PushBack(x int) {
 	p := List{x, nil}
 	if l == nil {

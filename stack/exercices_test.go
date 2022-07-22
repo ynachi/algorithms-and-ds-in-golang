@@ -175,3 +175,43 @@ func TestDecToBin(t *testing.T) {
 		})
 	}
 }
+
+func TestEvaluatePostfix(t *testing.T) {
+	expr1 := "921*-8-4+"
+	expr2 := "921*-8--4+"
+	tests := []struct {
+		name string
+		give string
+		want int
+	}{
+		{
+			name: "test_valid0",
+			give: expr1,
+			want: 3,
+		},
+		{
+			name: "test_invalid0",
+			give: expr2,
+			want: -1,
+		},
+		// {
+		// 	name: "test_2",
+		// 	give: number2,
+		// 	want: "101010",
+		// },
+		// {
+		// 	name: "test_3",
+		// 	give: number3,
+		// 	want: "101001101101000010110001011",
+		// },
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got, err := EvaluatePostfix(tt.give)
+			if tt.want != got && err != nil {
+				const msg = `EvaluatePostfix : wanted %v but got %v.`
+				t.Fatalf(msg, tt.want, got)
+			}
+		})
+	}
+}

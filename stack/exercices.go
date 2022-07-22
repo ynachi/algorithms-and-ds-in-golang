@@ -1,6 +1,9 @@
 package stack
 
-import "strconv"
+import (
+	"errors"
+	"strconv"
+)
 
 /**
   Now let's practice stacks
@@ -66,4 +69,48 @@ func DecToBin(number int) string {
 		result = "0"
 	}
 	return result
+}
+
+// EvaluatePostfix evaluates a postfix expression given as a string
+// and return its value. For simpliciy, / operator is not included.
+
+// Not working for now
+func EvaluatePostfix(expr string) (int, error) {
+	operators := map[rune]bool{
+		'+': true,
+		'-': true,
+		'*': true,
+	}
+	stk := InitStack[int](15)
+	for _, digit := range expr {
+		if _, ok := operators[digit]; !ok {
+			// Beware int(digit) won't work as it just convert the ascii code to int
+			stk.Push(int(digit - '0'))
+			continue
+		}
+		var intermediateComputation int
+		d1, err := stk.Pop()
+		if err != nil {
+			return -1, err
+		}
+		d2, err := stk.Pop()
+		if err != nil {
+			return -1, err
+		}
+		switch digit {
+		case '+':
+			intermediateComputation = d2 + d1
+		case '-':
+			intermediateComputation = d2 - d1
+		case '*':
+			intermediateComputation = d2 * d1
+		}
+		stk.Push(intermediateComputation)
+	}
+	result, _ := stk.Pop()
+	if stk.IsEmpty() {
+		return result, nil
+	} else {
+		return -1, errors.New("invalid expression")
+	}
 }

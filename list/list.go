@@ -67,15 +67,15 @@ func (l *List) Delete(x int) {
 	}
 }
 
-// get the lenght of a linked list
+// get the length of a linked list
 func (l *List) Size() int {
-	lenght := 0
+	length := 0
 	currentNode := l
 	for currentNode != nil {
-		lenght++
+		length++
 		currentNode = currentNode.next
 	}
-	return lenght
+	return length
 }
 
 // Form a golang string from a linked list
@@ -133,16 +133,16 @@ func (head *List) RotateRight(k int) *List {
 	}
 	oldHead := head
 	current := head
-	lenght := 0
+	length := 0
 	for current.next != nil {
-		lenght += 1
+		length += 1
 		current = current.next
 	}
-	lenght += 1
+	length += 1
 	current.next = oldHead
-	steps := lenght - k
+	steps := length - k
 	if steps < 0 {
-		steps = lenght - k%lenght
+		steps = length - k%length
 	}
 	for i := 0; i < steps; i++ {
 		current = current.next
